@@ -1,0 +1,42 @@
+{
+  "name": "narp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ansi-styles": "^4.3.0",
+    "async": "^3.2.3",
+    "balanced-match": "^1.0.2",
+    "brace-expansion": "^2.0.1",
+    "bytes": "^3.1.2",
+    "color-convert": "^2.0.1",
+    "color-name": "^1.1.4",
+    "concat-map": "^0.0.1",
+    "content-type": "^1.0.4",
+    "depd": "^2.0.0",
+    "destroy": "^1.2.0",
+    "dotenv": "^16.0.1",
+    "ee-first": "^1.1.1",
+    "ejs": "^3.1.8",
+    "encodeurl": "^1.0.2",
+    "escape-html": "^1.0.3",
+    "etag": "^1.8.1",
+    "express": "^4.18.1",
+    "express-ejs-layouts": "^2.5.1",
+    "filelist": "^1.0.4",
+    "forwarded": "^0.2.0",
+    "fresh": "^0.5.2",
+    "function-bind": "^1.1.1",
+    "has-flag": "^4.0.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.20.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon index.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrete:undo": "npx sequelize-cli db:migrate:undo"
+  },
+  "author": "",
+  "license": "ISC"
+}
