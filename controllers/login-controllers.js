@@ -1,5 +1,5 @@
 User = require('../models/user');
-const { decrypt, encrypt } = require('../utils/login-utils')
+const utils = require('../utils/login-utils')
 
 const signIn = (req, res, next) => {
     const { username, password } = req.body
@@ -11,7 +11,7 @@ const signIn = (req, res, next) => {
     const user = await User.findAll({
         where: {
             name: username,
-            password: encrypt(password)
+            password: utils.encrypt(password)
         }
     })
 
