@@ -1,0 +1,170 @@
+<%- include('../layout/header') -%>
+
+<body class="g-sidenav-show bg-gray-200">
+  <%- include('../layout/menu-left') -%>
+  <main
+    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+  >
+    <%- include('../layout/menu-top') -%>
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+              >
+                <h6 class="text-white text-capitalize ps-3">
+                  Criar um Novo Aluno
+                </h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="container">
+                <form action="/createClient"  method="post" name="form">
+                  <div class="row">
+                    <div class="col">
+                      <label for="name">nome:</label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        class="form-control"
+                        placeholder="João da Silva"
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="email">email:</label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="form-control"
+                        placeholder="exemplo@exemplo.com.br"
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="password">senha:</label>
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="******"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <label for="nasc">data nasc.:</label>
+                      <input
+                        type="date"
+                        name="birth_date"
+                        class="form-control"
+                        placeholder="01/05/1989"
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="andress">logradouro</label>
+                      <input
+                        type="text"
+                        name="andress"
+                        class="form-control"
+                        placeholder="rua joão da silva, 5"
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="district">bairro:</label>
+                      <input
+                        type="text"
+                        name="district"
+                        class="form-control"
+                        placeholder="São João"
+                      />
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                          <label for="phone">telefone:</label>
+                          <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            data-mask="(00) 00000-0000"
+                            placeholder="11999999999"
+                          />
+                        </div>
+                        <div class="col">
+                          <label for="logradouro">dia de pagamento:</label>
+                          <input
+                          name="pay_day"
+                            type="number"
+                            class="form-control"
+                            placeholder="1"
+                          />
+                        </div>
+                        <div class="col">
+                          <label for="plan_id">plano:</label>
+                          <select class="form-control" name="plan_id">
+                            <option id="1" value="1" >Plano 1</option>
+                            <option id="2" value="2" >Plano 2</option>
+                            <option id="3" value="3" >Plano 3</option>
+                            <option id="4" value="4" >Plano 4</option>
+                          </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                              <label for="school_id">Escola:</label>
+                              <input
+                                name="school_id"
+                                type="text"
+                                class="form-control"
+                                placeholder="Escola Exemplo"
+                              />
+                            </div>
+                            <div class="col">
+                                <label for="subjects_ids">Matéria:</label><br>
+                                <div class="form-check">
+                                <input name="subjects_ids[]" class="form-check-input" type="checkbox" value="1" id="defaultCheck1" >
+                                <label class="form-check-label" for="defaultCheck1" >Matéria 1</label>
+                                <input name="subjects_ids[]" class="form-check-input" type="checkbox" value="2" id="defaultCheck1" >
+                                <label class="form-check-label" for="defaultCheck1">Matéria 2</label>
+                                </div>
+                                <div class="form-check">
+                                <input name="subjects_ids[]" class="form-check-input" type="checkbox" value="3" id="defaultCheck1" >
+                                <label class="form-check-label" for="defaultCheck1">Matéria 3</label>
+                                <input name="subjects_ids[]" class="form-check-input" type="checkbox" value="4" id="defaultCheck1" >
+                                <label class="form-check-label" for="defaultCheck1">Matéria 4</label>
+                                </div>
+                              </div>
+                            <div class="col">
+                              <label for="bairro">Instagram:</label>
+                              <input
+                              name="instagram"
+                              type="text"
+                              class="form-control"
+                              placeholder="@username"
+                            />
+                          <div class="col">
+                      <label for="payment_status">Status Pagamento:</label>
+                      <select class="form-control" name="payment_status">
+                        <option id="1" value="pago" >Pago</option>
+                        <option id="2" value="pendente">Pendente</option>
+                        <option id="3" value="atrasado">Atrasado</option>
+                      </select>
+                    </div>
+                            </div>
+                            <input type="submit" value="Criar" class="btn btn-primary"/>
+                        </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('../layout/plugin') -%> <%- include('../layout/scripts') -%>
+</body>

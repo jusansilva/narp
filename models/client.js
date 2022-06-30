@@ -1,34 +1,31 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Client extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  Client.init({
-    user_id: DataTypes.STRING,
-    birth_date: DataTypes.INTEGER,
-    andress: DataTypes.STRING,
-    district: DataTypes.STRING,
-    answerable: DataTypes.INTEGER,
-    phone: DataTypes.STRING,
-    adm_answerable: DataTypes.INTEGER,
-    pay_day: DataTypes.INTEGER,
-    plan_id: DataTypes.INTEGER,
-    school_id: DataTypes.INTEGER,
-    subjects_ids: DataTypes.STRING,
-    instagram: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Client',
-  });
-  return Client;
-};
+const Sequelize = require("sequelize");
+const database = require("../config/db");
+const User = require("./user");
+
+const Client = database.define("Client", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: true,
+    primaryKey: true,
+  },
+  user_id: {
+    type: Sequelize.STRING
+  },
+  birth_date: Sequelize.INTEGER,
+  andress: Sequelize.STRING,
+  district: Sequelize.STRING,
+  answerable: Sequelize.INTEGER,
+  phone: Sequelize.STRING,
+  adm_answerable: Sequelize.INTEGER,
+  pay_day: Sequelize.INTEGER,
+  plan_id: Sequelize.INTEGER,
+  school_id: Sequelize.INTEGER,
+  subjects_ids: Sequelize.STRING,
+  instagram: Sequelize.STRING,
+  payment_status: Sequelize.STRING
+});
+
+Client.belongsTo(User, {foreignKey: 'user_id'})
+
+module.exports = Client;
