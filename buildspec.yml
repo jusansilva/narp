@@ -4,10 +4,11 @@ phase:
   pre_build:
     commands:
       - echo Install packages
-      - npm install
+      - rm -rf package-lock.json
   build:
     commands:
       - echo Create build...
+      - npm install
   post_build:
     commands:
       - echo Removing unnecessary files...
