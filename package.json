@@ -38,7 +38,8 @@
     "typeorm": "^0.3.7"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrete:undo": "npx sequelize-cli db:migrate:undo",
     "seeder": "npx sequelize-cli db:seed:all"
