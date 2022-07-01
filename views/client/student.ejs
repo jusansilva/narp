@@ -43,18 +43,23 @@
                       <th
                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                       >
-                        whatsapp
+                        Modalidade
                       </th>
                       <th
                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                       >
-                        Status
+                        Valor Mensaidade
                       </th>
                       <th
                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                       >
-                        Cadastro
+                        Data Vencimento
                       </th>
+                      <th
+                      class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                    >
+                      Data Pagamento
+                    </th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -64,52 +69,40 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img
-                              src="../assets/img/team-2.jpg"
-                              class="avatar avatar-sm me-3 border-radius-lg"
-                              alt="user1"
-                            />
+                        
                           </div>
                           <div
                             class="d-flex flex-column justify-content-center"
                           >
-                            <h6 class="mb-0 text-sm"><%= al.User.name %></h6>
+                            <h6 class="mb-0 text-sm"><%= al.nome %></h6>
                             <p class="text-xs text-secondary mb-0">
-                              <%= al.User.email %>
+                              <%= al.User?.email %>
                             </p>
                           </div>
                         </div>
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">
-                          <%= al.phone %>
+                          <%= al.modalidade %>
                         </p>
                       </td>
-
-                      <% if(al.payment_status==='pendente' ) { %>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-warning">
-                          <%= al.payment_status %>
-                        </span>
-                      </td>
-                      <% } %> <% if(al.payment_status==='pago' ) { %>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">
-                          <%= al.payment_status %>
-                        </span>
-                      </td>
-                      <% } %> <% if(al.payment_status==='atrasado' ) { %>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-danger">
-                          <%= al.payment_status %>
-                        </span>
-                      </td>
-                      <% } %>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                          <%= al.create %>
+                          <%= al.mensalidade %>
                         </span>
                       </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                          <%= al.vencimento %>
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                          <%= al.pagamento %>
+                        </span>
+                      </td>
+                     
+            
                       <td class="align-middle">
                         <a
                           href="/updateCliente/<%=al.id%>"

@@ -15,6 +15,7 @@
     "color-name": "^1.1.4",
     "concat-map": "^0.0.1",
     "content-type": "^1.0.4",
+    "cookie-parser": "^1.4.6",
     "depd": "^2.0.0",
     "destroy": "^1.2.0",
     "dotenv": "^16.0.1",
@@ -30,13 +31,17 @@
     "fresh": "^0.5.2",
     "function-bind": "^1.1.1",
     "has-flag": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.20.1"
+    "sequelize": "^6.20.1",
+    "sequelize-cli": "^6.4.1",
+    "typeorm": "^0.3.7"
   },
   "scripts": {
     "start": "nodemon index.js",
     "migrate": "npx sequelize-cli db:migrate",
-    "migrete:undo": "npx sequelize-cli db:migrate:undo"
+    "migrete:undo": "npx sequelize-cli db:migrate:undo",
+    "seeder": "npx sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC"
