@@ -17,4 +17,4 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(homeRoutes.routes);
 app.use('/api/user', userRouter.routes);
-app.listen(3000, () => console.log('NARP is listening on http://localhost:3000'));
+app.listen(80, () => console.log('NARP is listening on http://localhost:80'));
