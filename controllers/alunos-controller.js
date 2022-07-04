@@ -1,129 +1,180 @@
-const Client = require("../models/client");
+const Alunos = require("../models/Aluno");
+const Diciplinas = require("../models/Diciplinas");
 const User = require("../models/user");
 const { encrypt, decrypt } = require("../utils/login-utils");
+const { verify } = require('../controllers/auth-controllers');
+const AlunoDiciplina = require("../models/AlunoDiciplina");
 
 const clientView = async (req, res, next) => {
-  const clientAll = await Client.findAll({
-    include: [User],
-  });
+  const { token } = req.cookies
+  if (token) {
+    const verifyToken = await verify(req, res, next);
+    if (verifyToken.status) {
+      const alunosAll = await Alunos.findAll({
+        include: [{
+          model: User
+        }],
+      });
 
-  const client = await formatDate(clientAll);
 
-  res.render("client/student", {
-    student: true,
-    title: "NARP - Alunos",
-    subTitle: "Alunos",
-    alunos: client,
-  });
+      const alunos = await formatDate(alunosAll);
+      return res.render("client/student", {
+        student: true,
+        title: "NARP - Alunos",
+        subTitle: "Alunos",
+        alunos: alunos,
+      });
+    }
+    return res.redirect('/sing-in')
+  }
+  return res.redirect('/sing-in')
 };
 
-const createClientView = (req, res, next) => {
-  res.render("client/create-student", {
-    student: true,
-    title: "NARP - Alunos",
-    subTitle: "Alunos",
-  });
+const createClientView = async (req, res, next) => {
+  const { token } = req.cookies
+  const error = req.query.error ? req.query.error : false;
+  const message = req.query.message ? req.query.message : '';
+  if (token) {
+    const verifyToken = await verify(req, res, next);
+    if (verifyToken.status) {
+      const diciplinas = await Diciplinas.findAll();
+      return res.render("client/create-student", {
+        student: true,
+        title: "NARP - Alunos",
+        subTitle: "Alunos",
+        data: diciplinas,
+        error,
+        message
+      });
+    }
+    return res.redirect('/sing-in')
+  }
+  return res.redirect('/sing-in')
 };
 
 const updateClientView = async (req, res, next) => {
+  const error = req.query.error ? req.query.error : false;
+  const message = req.query.message ? req.query.message : '';
   const { id } = req.params;
-  const client = await Client.findOne({ where: { id }, include: [User] });
-  const subject = client.subjects_ids?.split(",");
-  client.subjects_ids = subject;
-  let clientFinaly
-  if(client.birth_date){
-    clientFinaly = await formatDateForOneClient(client);
-  }else{
-    clientFinaly = client
-  }
+  const aluno = await Alunos.findOne({ where: { id }, include: [User] });
+  const diciplina = await Diciplinas.findAll();
+  const myDiciplina = await AlunoDiciplina.findAll({
+    where: {
+      aluno_id: aluno.id
+    }
+  })
+  const diciplinaIds = myDiciplina.map(diciplina => {
+    return diciplina.diciplina_id
+  })
 
   res.render("client/update-student", {
     student: true,
     title: "NARP - Alunos",
     subTitle: "Alunos",
-    aluno: client,
+    aluno: aluno,
+    diciplina,
+    myDiciplina: diciplinaIds,
+    error,
+    message
   });
 };
 
 const createClient = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  const findUser = await User.findOne({ where: { name, email } });
+
+  const email = req.body.email
+  const password = req.body.password;
+  console.log(req.body);
+  const findUser = await User.findOne({ where: { email } });
   if (findUser) {
-    return res.status(401).json({
-      error: true,
-      mensager: `email: ${email} já é cadastrado`,
-    });
+    const mensager = `email: ${email} já é cadastrado`
+    return res.redirect(`/createClient/?error=true&mensager=${mensager}`);
   }
+
   const cryptPassword = encrypt(password);
-  const user = await User.create({ name, email, password: cryptPassword });
-  console.log(user);
+  const user = await User.create({ email, password: cryptPassword });
 
-  const clientData = {
+
+  const aluno = await Alunos.create({
     user_id: user.id,
-    birth_date: req.body.birth_date,
-    andress: req.body.andress,
-    district: req.body.district,
-    answerable: user.id,
-    adm_answerable: user.id,
-    phone: req.body.phone,
-    pay_day: req.body.pay_day,
-    plan_id: req.body.plan_id,
-    school_id: req.body.school_id,
-    subjects_ids: `${req.body.subjects_ids}`,
+    nome: req.body.nome,
+    nasc: req.body.nasc,
+    logradouro: req.body.logradouro,
+    bairro: req.body.bairro,
+    numero: parseInt(req.body.numero),
+    uf: req.body.uf,
+    cep: req.body.cep,
+    modalidade: `${req.body.modalidade}`,
+    telefone: req.body.telefone,
+    mensalidade: parseFloat(req.body.mensalidade),
     instagram: req.body.instagram,
-  };
-  const client = await Client.create({ clientData });
+    vencimento: parseInt(req.body.vencimento)
+  });
+  const myDiciplina = req.body.diciplinas;
 
-  await Client.update({ user_id: user.id }, { where: { id: client.id } });
+  await myDiciplina.forEach(async (id) => {
+    await Diciplinas.create({ aluno_id: aluno.id, diciplina_id: id })
+  });
 
   return res.redirect("/client");
 };
 
 const updateClient = async (req, res, next) => {
   const { id } = req.params;
-  const { name, email } = req.body;
-  const client = await Client.findOne({ where: { id } });
+  const { email, user_id } = req.body;
   await User.update(
-    { name, email },
+    { email },
     {
       where: {
-        id: client.user_id,
+        id: user_id,
       },
     }
   );
-  const clientData = {
-    user_id: client.user_id,
-    birth_date: req.body.nasc,
-    andress: req.body.andress,
-    district: req.body.district,
-    answerable: client.user_id,
-    adm_answerable: client.user_id,
-    phone: req.body.phone,
-    pay_day: req.body.pay_day,
-    plan_id: req.body.plan_id,
-    school_id: req.body.school_id,
-    subjects_ids: `${req.body.subjects_id}`,
-    instagram: req.body.instagram,
-    payment_status: req.body.payment_status,
-  };
 
-  await Client.update(clientData, {
+  await Alunos.update(
+    {
+      user_id: user_id,
+      nome: req.body.nome,
+      nasc: req.body.nasc,
+      logradouro: req.body.logradouro,
+      bairro: req.body.bairro,
+      numero: parseInt(req.body.numero),
+      uf: req.body.uf,
+      cep: req.body.cep,
+      modalidade: `${req.body.modalidade}`,
+      telefone: req.body.telefone,
+      mensalidade: parseFloat(req.body.mensalidade),
+      instagram: req.body.instagram,
+      vencimento: parseInt(req.body.vencimento)
+    }, {
     where: {
       id,
     },
   });
+
+  const dis = req.body.materias
+  console.log(id)
+  await dis.forEach(async (disId) => {
+    await AlunoDiciplina.findOrCreate({
+      where: {
+        aluno_id: id,
+        diciplina_id: disId
+      }
+    })
+
+  })
   return res.redirect("/client");
 };
 
+
 const formatDate = (client) => {
   const clientReturn = client.map((cli) => {
-    const date = new Date(cli.createdAt);
+    const date = new Date(cli.vencimento);
     const day = date.getDay() < 10 ? `0${date.getDay()}` : date.getDay();
     const mouth =
       date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
     const years = date.getFullYear();
     const formatDate = `${day}/${mouth}/${years}`;
-    cli.create = formatDate;
+    cli.vencimento = formatDate;
     return cli;
   });
   return clientReturn;
@@ -133,7 +184,7 @@ const formatDateForOneClient = (client) => {
   const date = client.birth_date.split('-');
   const day = date[2];
   console.log(day)
-  const mouth = date[1]  
+  const mouth = date[1]
   const years = date[0]
   const formatDate = `${years}-${mouth}-${day}`;
   client.nasc = formatDate;

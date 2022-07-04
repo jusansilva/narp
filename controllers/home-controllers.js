@@ -1,12 +1,47 @@
 const axios = require("axios");
+const { verify } = require('../controllers/auth-controllers');
+const User = require("../models/user");
 
-const indexView = (req, res, next) => {
-  res.render("dashboard/home", {
-    home: true,
-    title: "NARP - Home",
-    subTitle: "Dashbord",
-  });
-};
+const indexView = async (req, res, next) => {
+  const { token } = req.cookies
+  if (token) {
+    const verifyToken = await verify(req, res, next);
+    if (verifyToken.status) {
+      const email = verifyToken.email;
+      const aulasCancelada = '';
+      const aulasCompletas = '';
+      const planosVedidos = '';
+      const aulas = ''
+
+      const users = await User.findAll();
+
+      const getDashInfo = {
+        email,
+        vendas: "53.0000,00",
+        cancelamento: "20",
+        usuarios: "3,000",
+        faturamento: "560.340,00",
+        aulasCancelada,
+        aulasCompletas,
+        planosVedidos,
+        aulas,
+        users
+      }
+
+      return res.render("dashboard/home", {
+        home: true,
+        title: "NARP - Home",
+        subTitle: "Dashbord",
+        data: getDashInfo
+      });
+    };
+    return res.redirect('/sing-in')
+  }
+  return res.redirect('/sing-in')
+}
+
+
+
 
 const clientView = (req, res, next) => {
   res.render("client/student", {
@@ -48,7 +83,9 @@ const profileView = (req, res, next) => {
 };
 
 const singInView = (req, res, next) => {
-  res.render("login/sing-in", { title: "NARP - Login" });
+  const { error, message } = req.query;
+  const data = { error: error ? error : false, message: message ? message : '' };
+  res.render("login/sing-in", { title: "NARP - Login", data });
 };
 
 const singUpView = (req, res, next) => {

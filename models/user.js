@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const database = require('../config/db');
-const Client = require('./client');
+const Alunos = require('./Aluno');
+const Professores = require('./Professores');
+const Administradores = require('./Admistradores');
 
 const User = database.define('User', {
   id: {
@@ -9,18 +11,19 @@ const User = database.define('User', {
     allowNull: true,
     primaryKey: true
   },
-  name: {
-    type:Sequelize.STRING,
-    allowNull: true
-  },
   email: {
     type:Sequelize.STRING,
     allowNull: true,
     unique: true
   },
+  is_adm: { type: Sequelize.BOOLEAN},
   password: {type:Sequelize.STRING},
-  token: {type:Sequelize.STRING}
+});
 
-})
+//User.hasOne(Alunos);
+//User.hasOne(Professores);
+//User.hasOne(Administradores)
+
+
 
 module.exports = User
