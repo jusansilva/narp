@@ -1,20 +1,16 @@
 version: 0.2
-
-phase:
+phases:
   install:
-    reuntime-versions:
+    runtime-versions:
       nodejs: 14
-
     commands:
       - npm install
-
   build:
     commands:
-      - npm run-script build
-
-  artifacts:
-    files:
-      - public/**/*
-      - src/**/*
-      - package.json
-      - scripts/**/*
+      - npm run build
+artifacts:
+  files:
+    - public/**/*
+    - src/**/*
+    - package.json
+    - scripts/**/*
