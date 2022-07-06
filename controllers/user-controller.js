@@ -1,7 +1,7 @@
 const { encrypt, decrypt } = require("../utils/login-utils");
 const { Op } = require("sequelize");
 
-const User = require("../models/user");
+const User = require("../models/User");
 
 const getUser = async (req, res, next) => {
   try {

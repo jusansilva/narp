@@ -30,7 +30,7 @@ const Alunos = database.define("Alunos", {
   pagamento: Sequelize.STRING
 });
 
-Alunos.belongsTo(User, { foreignKey: 'user_id' })
+//Alunos.belongsTo(User, { foreignKey: 'user_id' })
 Alunos.hasOne(AlunoDiciplina, { foreignKey: "aluno_id"})
 Alunos.hasOne(Aulas)
 Alunos.hasOne(Pagamentos)
