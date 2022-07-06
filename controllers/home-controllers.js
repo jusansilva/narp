@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { verify } = require('../controllers/auth-controllers');
-const User = require("../models/user");
+const User = require("../models/User");
 
 const indexView = async (req, res, next) => {
   const { token } = req.cookies

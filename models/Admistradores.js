@@ -18,5 +18,4 @@ const Administradores = database.define("Administradores", {
 });
 
 //Administradores.belongsTo(User, { foreignKey: 'user_id' })
-
 module.exports = Administradores;
