@@ -23,4 +23,4 @@ app.use('/api/auth', authRouter.routes);
 
 const port = process.env.PORT || 3000
 
-app.listen(port, () => console.log('NARP is listening on http://localhost:80'));
+app.listen(port, () => console.log(`NARP is listening on http://localhost:${port}`));
