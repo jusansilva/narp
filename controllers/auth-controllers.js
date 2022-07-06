@@ -1,5 +1,5 @@
 require('dotenv').config();
-User = require('../models/User');
+const User = require('../models/User');
 const utils = require('../utils/login-utils')
 const jwt = require('jsonwebtoken');
 const jwtExpirySeconds = 1000
