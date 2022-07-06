@@ -1,6 +1,6 @@
 const Alunos = require("../models/Aluno");
 const Diciplinas = require("../models/Diciplinas");
-const User = require("../models/user");
+const User = require("../models/User");
 const { encrypt, decrypt } = require("../utils/login-utils");
 const { verify } = require('../controllers/auth-controllers');
 const AlunoDiciplina = require("../models/AlunoDiciplina");

@@ -1,7 +1,7 @@
 'use strict';
 
 const Administradores = require("../models/Admistradores");
-const User = require("../models/user");
+const User = require("../models/User");
 const { encrypt } = require("../utils/login-utils");
 
 module.exports = {
