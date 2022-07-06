@@ -1,4 +1,3 @@
-const axios = require("axios");
 const { verify } = require('../controllers/auth-controllers');
 const User = require("../models/User");
 
@@ -95,14 +94,7 @@ const singUpView = (req, res, next) => {
 const createUserView = async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  const createUser = await axios.post(
-    `http://localhost:3000/api/user`,
-    JSON.stringify({
-      name,
-      email,
-      password,
-    })
-  );
+  const createUser = {}
   if (createUser) {
     return res.render("dashboard/home", {
       home: true,
